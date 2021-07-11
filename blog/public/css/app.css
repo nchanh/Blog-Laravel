@@ -1,0 +1,8 @@
+*{
+    font-family: "Roboto Light";
+    font-size: 14px;
+}
+
+.user__profile__table td{
+    padding: 3px 8px;
+}
