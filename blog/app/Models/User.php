@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
 
 // use Authenticatable, CanResetPassword;
-class User extends Authenticatable
+class User extends Authenticatable implements AuthenticatableContract, CanResetPasswordContract
 {
     use HasFactory, Notifiable;
 
@@ -49,4 +51,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // user has many posts
+    public function posts()
+    {
+        return $this->hasMany('App\Posts', 'author_id');
+    }
+
+    // user has many comments
+    public function comments()
+    {
+        return $this->hasMany('App\Comments', 'from_user');
+    }
+
+    // Checking if a user can post an article or not
+    public function can_post()
+    {
+        $role = $this->role;
+        if ($role == 'author' || $role == 'admin') {
+            return true;
+        }
+        return false;
+    }
+
+    // Checking if a role is admin or not
+    public function is_admin()
+    {
+        $role = $this->role;
+        if ($role == 'admin') {
+            return true;
+        }
+        return false;
+    }
 }
