@@ -1,0 +1,12 @@
+*{
+    font-family: "Roboto Light";
+    font-size: 14px;
+}
+
+.nav__dropdown {
+    left: -35px !important;
+}
+
+.user__profile__table td{
+    padding: 3px 8px;
+}
