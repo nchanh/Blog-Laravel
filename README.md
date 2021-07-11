@@ -1,1 +1,1 @@
-# Blog-Laravel
+# Project Blog - Laravel 8
