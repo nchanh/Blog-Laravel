@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use \App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -48,7 +49,10 @@ class AuthController extends Controller
         return redirect()
             ->back()
             ->withInput()
-            ->withErrors('E-mail address or password is incorrect!');
+            ->with([
+                'message' => __('auth.login_no_user'),
+                'alert' => 'alert-danger',
+            ]);
     }
 
     /**
@@ -65,16 +69,8 @@ class AuthController extends Controller
      * @param Request $request
      * @return mixed
      */
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        // Validate value input
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|max:60|confirmed',
-            'password_confirmation' => 'required|max:60',
-        ]);
-
         // Insert User
         $data = $request->all();
         $check = $this->create($data);
@@ -82,7 +78,10 @@ class AuthController extends Controller
         // Redirect view login and message success
         return redirect()
             ->route('login')
-            ->withSuccess('Account registered successfully!');
+            ->with([
+                'message' => __('auth.register_success'),
+                'alert' => 'alert-success',
+            ]);
     }
 
     /**
@@ -97,6 +96,15 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
+    }
+
+    /**
+     * Get view reset password
+     * @return view reset password
+     */
+    public function resetPassword()
+    {
+        return view('auth.forgot-password');
     }
 
     /**

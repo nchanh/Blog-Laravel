@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h2>Register</h2>
+            <h2>{{ __('custom.register') }}</h2>
         </div>
         <div class="card-body p-5">
             <form action="{{ route('register.post') }}" method="post">
@@ -10,7 +10,7 @@
                 <div class="form-group mb-3">
                     <div class="row">
                         <div class="col-sm-12 col-md-3 col-lg-3 col-12">
-                            <label>Name</label>
+                            <label>{{ __('custom.name') }}</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 col-12">
                             <input type="text" class="form-control" name="name" id="name"  value="{{ old('name') }}" required/>
@@ -25,7 +25,7 @@
                 <div class="form-group mb-3">
                     <div class="row">
                         <div class="col-sm-12 col-md-3 col-lg-3 col-12">
-                            <label>E-Mail Address</label>
+                            <label>{{ __('custom.email_address') }}</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 col-12">
                             <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" required/>
@@ -40,7 +40,7 @@
                 <div class="form-group mb-3">
                     <div class="row">
                         <div class="col-sm-12 col-md-3 col-lg-3 col-12">
-                            <label>Password</label>
+                            <label>{{ __('custom.password') }}</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 col-12">
                             <input type="password" class="form-control" name="password" id="password" maxlength="60" required/>
@@ -55,7 +55,7 @@
                 <div class="form-group mb-4">
                     <div class="row">
                         <div class="col-sm-12 col-md-3 col-lg-3 col-12">
-                            <label>Confirm Password</label>
+                            <label>{{ __('custom.confirm_password') }}</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 col-12">
                             <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" maxlength="60" required/>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary">Register</button>
+                    <button class="btn btn-primary">{{ __('custom.register') }}</button>
                 </div>
             </form>
         </div>

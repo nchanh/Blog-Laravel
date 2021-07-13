@@ -16,7 +16,7 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
-    'login_logged' => 'Please login to access!',
-    'login_no_user' => 'E-mail address or password is incorrect!',
-    'register_success' => 'Account registered successfully!',
+    'login_logged' => 'Vui lòng đăng nhập để truy cập!',
+    'login_no_user' => 'Địa chỉ Email hoặc mật khẩu không đúng!',
+    'register_success' => 'Tài khoản đã đăng ký thành công!',
 ];
