@@ -22,10 +22,10 @@ class CheckLogin
             return $next($request);
         }
         else{
-            return redirect("/auth/login")->withErrors('Please login to access!')
+            return redirect("/auth/login")
                 ->with([
-                    'message' => __('auth.register_success'),
-                    'alert' => 'alert-success',
+                    'message' => __('auth.login_logged'),
+                    'alert' => 'alert-danger',
                 ]);
         }
     }
