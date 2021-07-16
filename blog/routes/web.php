@@ -33,7 +33,7 @@ Route::group(['middleware' => 'locale'], function() {
         Route::get('/password/reset', [AuthController::class, 'resetPassword'])->name('reset-password');
     });
 
-    Route::group(['middleware' => 'checklogin'], function() {
+    Route::group(['middleware' => ['checklogin', 'role:author']], function() {
         Route::get('/new-post', [PostController::class, 'create'])->name('post.create');
         Route::post('/new-post', [PostController::class, 'store'])->name('post.store');
 
