@@ -75,7 +75,7 @@ class PostController extends Controller
         $post = Posts::find($post_id);
 
         // Post exists and author_id post = user_id
-        if ($post && ($post->author_id == $request->user()->id)) {
+        if ($post && ($post->author_id == $request->user()->id || $request->user()->is_admin())) {
             $title = $request->input('title');
             $slug = Str::slug($title);
 
@@ -157,7 +157,7 @@ class PostController extends Controller
         $post = Posts::where('slug', $slug)->first();
 
         // Post exists and author_id post = user_id
-        if($post && ($post->author_id === $request->user()->id))
+        if($post && ($post->author_id === $request->user()->id || $request->user()->is_admin()))
         {
             return view('post.update')->with('post', $post);
         }
@@ -182,7 +182,7 @@ class PostController extends Controller
         $post = Posts::find($id);
 
         // Post exists and author_id post = user_id
-        if($post && ($post->author_id == $request->user()->id))
+        if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin()))
         {
             $post->delete();
             $message = __('custom.message_home_delete_success');

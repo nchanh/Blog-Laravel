@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Posts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -13,8 +14,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        //fetch 5 posts from database which are active and latest
-        $posts = Posts::where('active', 1)->orderBy('created_at','desc')->paginate(5);
+        if (Auth::user()->is_admin()){
+            //fetch 5 posts from database which are latest
+            $posts = Posts::orderBy('created_at','desc')->paginate(5);
+        }
+        else {
+            //fetch 5 posts from database which are active and latest
+            $posts = Posts::where('active', 1)->orderBy('created_at','desc')->paginate(5);
+        }
 
         // redirect view home and data posts
         return view('home')->withPosts($posts);

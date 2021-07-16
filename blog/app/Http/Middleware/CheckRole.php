@@ -17,7 +17,7 @@ class CheckRole
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::user()->is_author()) {
+        if (Auth::user()->can_post()) {
             return $next($request);
         }
 

@@ -27,10 +27,10 @@
                                     <span>{{ __('custom.by') }} <a href="" class="text-decoration-none">{{ $post->author->name }}</a></span>
                                 </div>
                             </div>
-                            @if (Auth::check() && ($post->author_id === Auth::user()->id))
+                            @if (Auth::check() && ($post->author_id === Auth::user()->id || Auth::user()->is_admin()))
                                 @if ($post->active === 0)
                                     <div class="col text-end">
-                                        <a class="btn btn-light" href="{{ url('/edit/' . $post->slug) }}" role="button">{{ __('custom.btn_edit_draft') }}</a>
+                                        <a class="btn btn-secondary" href="{{ url('/edit/' . $post->slug) }}" role="button">{{ __('custom.btn_edit_draft') }}</a>
                                     </div>
                                 @else
                                 <div class="col text-end">
