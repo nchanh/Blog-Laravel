@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Posts;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     /**
-     * Get view login
-     * @return view login
+     * Get view home
+     * @return view home
      */
     public function index()
     {
-        return view('home');
+        //fetch 5 posts from database which are active and latest
+        $posts = Posts::where('active', 1)->orderBy('created_at','desc')->paginate(5);
+
+        // redirect view home and data posts
+        return view('home')->withPosts($posts);
     }
 
     public function changeLanguage($language)

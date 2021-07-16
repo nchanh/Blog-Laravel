@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,7 @@ use App\Http\Controllers\HomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/logout', [AuthController::class, 'signOut'])->name('signOut');
 Route::group(['middleware' => 'locale'], function() {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -30,8 +33,19 @@ Route::group(['middleware' => 'locale'], function() {
         Route::get('/password/reset', [AuthController::class, 'resetPassword'])->name('reset-password');
     });
 
+    Route::group(['middleware' => 'checklogin'], function() {
+        Route::get('/new-post', [PostController::class, 'create'])->name('post.create');
+        Route::post('/new-post', [PostController::class, 'store'])->name('post.store');
 
+        Route::get('/edit/{slug}', [PostController::class, 'edit'])->name('post.edit');
+        Route::post('/update', [PostController::class, 'update'])->name('post.update');
+
+        Route::get('/delete/{id}', [PostController::class, 'destroy']);
+        // add comment
+        Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.add');
+    });
+
+    Route::get('/{slug}', [PostController::class, 'show'])->name('post.detail')
+        ->where('slug', '[A-Za-z0-9-_]+');
 });
-
-Route::get('/logout', [AuthController::class, 'signOut'])->name('signOut');
 

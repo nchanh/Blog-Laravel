@@ -33,7 +33,7 @@
                             {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu nav__dropdown" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/new-post">{{ __('custom.add_new_post') }}</a></li>
+                            <li><a class="dropdown-item" href="{{ route('post.create') }}">{{ __('custom.add_new_post') }}</a></li>
                             <li><a class="dropdown-item" href="/user/id/posts">{{ __('custom.my_posts') }}</a></li>
                             <li><a class="dropdown-item" href="/user/id">{{ __('custom.my_profile') }}</a></li>
                             <li><a class="dropdown-item" href="{{ route('signOut') }}">{{ __('custom.logout') }}</a></li>
