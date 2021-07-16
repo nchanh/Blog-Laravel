@@ -41,8 +41,7 @@ Route::group(['middleware' => 'locale'], function() {
         Route::post('/update', [PostController::class, 'update'])->name('post.update');
 
         Route::get('/delete/{id}', [PostController::class, 'destroy']);
-        // add comment
-        Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.add');
+
     });
 
     Route::get('/{slug}', [PostController::class, 'show'])->name('post.detail')
