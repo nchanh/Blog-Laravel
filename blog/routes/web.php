@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,15 @@ Route::group(['middleware' => 'locale'], function() {
         Route::post('/update', [PostController::class, 'update'])->name('post.update');
 
         Route::get('/delete/{id}', [PostController::class, 'destroy']);
+
+        // User profile
+        Route::get('/user/{id}', [UserController::class, 'getMyProfile'])->name('user.profile');
+        // User posts
+        Route::get('/user/{id}/posts', [UserController::class, 'getMyPost'])->name('user.posts');
+        // User drafts
+        Route::get('/user/{id}/my-drafts', [UserController::class, 'geyMyDrafts'])->name('user.drafts');
+        // User all posts
+        Route::get('/user/{id}/my-all-posts', [UserController::class, 'getMyAllPost'])->name('user.all_posts');
 
     });
 

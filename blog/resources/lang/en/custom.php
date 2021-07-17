@@ -15,6 +15,12 @@ return [
     'leave_a_comment' => 'Leave a comment',
     'update_post' => 'Update Post',
     'add_new_post' => 'Add new Post',
+    'show_all' => 'Show all',
+    'total_Posts' => 'Total Posts',
+    'published_posts' => 'Published Posts',
+    'published_in_draft' => 'Published in Draft',
+    'profile' => 'Profile',
+    'of' => 'of',
 
     'name' => 'name',
     'email_address' => 'E-Mail Address',
