@@ -21,6 +21,9 @@ return [
     'published_in_draft' => 'Xuất bản trong bản nháp',
     'profile' => 'Hồ sơ',
     'of' => 'của',
+    'total_comments' => 'Tổng số bình luận',
+    'latest_comments' => 'Bình luận gần đây',
+    'on_post' => 'Trên bài viết',
 
     'name' => 'Tên',
     'email_address' => 'Địa chỉ E-Mail',
@@ -49,6 +52,9 @@ return [
     'message_home_no_post' => 'Không có bài viết nào. Viết một bài mới ngay bây giờ!',
     'message_modal_delete_title' => 'Thông báo',
     'message_modal_delete_content' => 'Bạn có chắc chắn xóa bài viết này?',
+    'message_comment_fail' => 'Đăng nhập để bình luận!',
+    'message_comment_success' => 'Bình luận đã được đăng!',
+    'message_comment_empty' => 'Bạn đã không nhận xét. Bình luận mới nhất của bạn sẽ được hiển thị ở đây.',
 
     'form_enter_comment' => 'Nhập bình luận tại đây',
     'form_enter_title' => 'Nhập tiêu đề tại đây',

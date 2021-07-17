@@ -54,6 +54,9 @@ Route::group(['middleware' => 'locale'], function() {
 
     });
 
+    // add comment
+    Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.add')->middleware('checklogin');
+
     Route::get('/{slug}', [PostController::class, 'show'])->name('post.detail')
         ->where('slug', '[A-Za-z0-9-_]+');
 });

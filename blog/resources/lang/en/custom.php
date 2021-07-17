@@ -21,6 +21,9 @@ return [
     'published_in_draft' => 'Published in Draft',
     'profile' => 'Profile',
     'of' => 'of',
+    'total_comments' => 'Total comments',
+    'latest_comments' => 'Latest Comments',
+    'on_post' => 'On post',
 
     'name' => 'name',
     'email_address' => 'E-Mail Address',
@@ -49,6 +52,9 @@ return [
     'message_home_no_post' => 'There is no post till now. Login and write a new post now!',
     'message_modal_delete_title' => 'Notification',
     'message_modal_delete_content' => 'Are you sure to delete this post?',
+    'message_comment_fail' => 'Login to Comment!',
+    'message_comment_success' => 'Comment published!',
+    'message_comment_empty' => 'You have not commented. Your latest comments will be displayed here.',
 
     'form_enter_comment' => 'Enter comment here',
     'form_enter_title' => 'Enter title here',

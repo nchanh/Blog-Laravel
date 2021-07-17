@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Posts;
 use App\Models\User;
+use App\Models\Comments;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -13,7 +14,7 @@ class UserController extends Controller
      * Get view profile
      * @return array
      */
-    public function getMyProfile($id)
+        public function getMyProfile($id)
     {
         $user = User::where('id', $id)->get();
         $countPosts = Posts::with('author')->where('author_id', $id)->count();
@@ -22,16 +23,24 @@ class UserController extends Controller
         $posts = Posts::with('author')
             ->where('author_id', $id)
             ->orderBy('created_at','desc')
-            ->paginate(3);
-
+            ->limit(5)
+            ->get();
+        $countComments = Comments::with('author')->where('from_user' , $id)->count();
+        $comments = Comments::with('author')
+            ->where('from_user' , $id)
+            ->orderBy('created_at','desc')
+            ->limit(5)
+            ->get();
 
         return view('user.profile')
             ->with([
                 'count_posts' => $countPosts,
                 'count_posts_published' => $countPostsPublished,
                 'count_posts_drafted' => $countPostsDrafted,
+                'count_comments' => $countComments,
                 'posts' => $posts,
                 'user' => $user,
+                'comments' => $comments,
             ]);
     }
 

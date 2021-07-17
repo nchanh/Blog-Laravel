@@ -38,38 +38,43 @@
                 {!! $post->body !!}
             </div>
             <div>
-                <h3 class="fw-bold">Leave A Comment</h3>
+                <h3 class="fw-bold">{{ __('custom.leave_a_comment') }}</h3>
             </div>
-            <div class="card-body">
-                <form action="" class="mb-5" method="post">
-                    <textarea class="form-control mb-3" name="comment" placeholder="{{ __('custom.form_enter_comment') }}" required="required"></textarea>
-                    <input type="submit" name="post_comment" class="btn btn-success" value="{{ __('custom.btn_post') }}">
-                </form>
-                <div>
-                    <ul class="list-group mb-4">
-                        <li class="list-group-item">
-                            <div>
-                                <h4>create by</h4>
-                            </div>
-                            <div>
-                                <span>time</span>
-                            </div>
-                        </li>
-                        <li class="list-group-item">A second item</li>
-                    </ul>
-                    <ul class="list-group mb-4">
-                        <li class="list-group-item">
-                            <div>
-                                <h4>create by</h4>
-                            </div>
-                            <div>
-                                <span>time</span>
-                            </div>
-                        </li>
-                        <li class="list-group-item">A second item</li>
-                    </ul>
+            @if (Auth::guest())
+                <span>{{ __('custom.message_comment_fail') }}</span>
+            @else
+                <div class="card-body">
+                    <form action="{{ route('comment.add') }}" class="mb-5" method="post">
+                        @csrf
+                        <input type="hidden" name="on_post" value="{{ $post->id }}">
+                        <input type="hidden" name="slug" value="{{ $post->slug }}">
+                        <textarea class="form-control mb-3" name="body" placeholder="{{ __('custom.form_enter_comment') }}" required="required"></textarea>
+                        <input type="submit" name="post_comment" class="btn btn-success" value="{{ __('custom.btn_post') }}">
+                    </form>
+                    <div>
+                        @forelse($comments as $comment)
+                            <ul class="list-group mb-4">
+                                <li class="list-group-item">
+                                    <div>
+                                        <h4>{{ $comment->author->name }}</h4>
+                                    </div>
+                                    <div>
+                                        @if (session('website_language') == 'en')
+                                            <span>{{ $comment->created_at->format('M d, Y \a\t h:i A') }}</span>
+                                        @else
+                                            <span>{{ $comment->created_at->format('d/m/Y \l\ú\c H:i') }}</span>
+                                        @endif
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <span>{{ $comment->body }}</span>
+                                </li>
+                            </ul>
+                        @empty
+                        @endforelse
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 @stop

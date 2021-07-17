@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
+use App\Models\Comments;
 use Illuminate\Http\Request;
 use \App\Http\Requests\PostRequest;
 use Illuminate\Support\Facades\Auth;
@@ -142,8 +143,8 @@ class PostController extends Controller
                     'alert' => 'alert-danger',
                 ]);
         }
-
-        return view('post.detail')->withPost($post);
+        $comments = Comments::where('on_post', $post->id)->orderBy('created_at','desc')->get();
+        return view('post.detail')->withPost($post)->withComments($comments);
     }
 
     /**

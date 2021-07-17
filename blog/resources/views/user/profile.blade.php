@@ -42,7 +42,7 @@
                         </table>
                     </li>
                     <li class="list-group-item">
-                        <span>Total Comments 2</span>
+                        <span>{{ __('custom.total_comments') }} {{ $count_comments }}</span>
                     </li>
                 </ul>
             </div>
@@ -81,36 +81,34 @@
                     @empty
                         {{ __('custom.message_home_no_post') }}
                     @endforelse
-                    {!! $posts->links('pagination::bootstrap-4') !!}
                 </div>
             </div>
             <div class="card mb-5">
                 <div class="card-header">
-                    <h4>Latest Comments</h4>
+                    <h4>{{ __('custom.latest_comments') }}</h4>
                 </div>
                 <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="row p-1">
-                            <span>Comment</span>
-                        </div>
-                        <div class="row p-1">
-                            <span>On time</span>
-                        </div>
-                        <div class="row p-1">
-                            <span>On post <a href="" class="text-decoration-none">post</a> </span>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row p-1">
-                            <span>Comment</span>
-                        </div>
-                        <div class="row p-1">
-                            <span>On time</span>
-                        </div>
-                        <div class="row p-1">
-                            <span>On post <a href="" class="text-decoration-none">post</a> </span>
-                        </div>
-                    </li>
+                    @forelse ($comments as $comment)
+                        <li class="list-group-item">
+                            <div class="row p-1">
+                                <span>{{ $comment->body }}</span>
+                            </div>
+                            <div class="row p-1">
+                                @if (session('website_language') == 'en')
+                                    <span>On {{ $comment->created_at->format('M d, Y \a\t h:i A') }}</span>
+                                @else
+                                    <span>Trên {{ $comment->created_at->format('d/m/Y \l\ú\c H:i') }}</span>
+                                @endif
+                            </div>
+                            <div class="row p-1">
+                                <span>
+                                    {{ __('custom.on_post') }} <a href="{{ url('/' . $comment->post->slug) }}" class="text-decoration-none">{{ $comment->post->title }}</a>
+                                </span>
+                            </div>
+                        </li>
+                    @empty
+                        <span class="p-3">{{ __('custom.message_comment_empty') }}</span>
+                    @endforelse
                 </ul>
             </div>
         </div>
