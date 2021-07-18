@@ -3,7 +3,7 @@
     <div class="card">
         <div class="card-header">
             <div class="mt-3">
-                <h2>{{ __('custom.profile') }} {{ __('custom.of') }} {{ $user->first()->name }}</h2>
+                <h2>{{ __('custom.profile') }} {{ __('custom.of') }} {{ $user->name }}</h2>
             </div>
         </div>
         <div class="card-body">
@@ -22,21 +22,21 @@
                                 <td>{{ __('custom.total_Posts') }}</td>
                                 <td>{{ $count_posts }}</td>
                                 @if ($count_posts)
-                                    <td><a href="{{ route('user.all_posts', ['id' => $user->first()->id ]) }}" class="text-decoration-none">{{ __('custom.show_all') }}</a></td>
+                                    <td><a href="{{ route('user.all_posts', ['id' => $user->id ]) }}" class="text-decoration-none">{{ __('custom.show_all') }}</a></td>
                                 @endif
                             </tr>
                             <tr>
                                 <td>{{ __('custom.published_posts') }}</td>
                                 <td>{{ $count_posts_published }}</td>
                                 @if ($count_posts_published)
-                                    <td><a href="{{  route('user.posts', ['id' => $user->first()->id ]) }}" class="text-decoration-none">{{ __('custom.show_all') }}</a></td>
+                                    <td><a href="{{  route('user.posts', ['id' => $user->id ]) }}" class="text-decoration-none">{{ __('custom.show_all') }}</a></td>
                                 @endif
                             </tr>
                             <tr>
                                 <td>{{ __('custom.published_in_draft') }}</td>
                                 <td>{{ $count_posts_drafted }}</td>
                                 @if ($count_posts_drafted)
-                                    <td><a href="{{ route('user.drafts', ['id' => $user->first()->id ]) }}" class="text-decoration-none">{{ __('custom.show_all') }}</a></td>
+                                    <td><a href="{{ route('user.drafts', ['id' => $user->id ]) }}" class="text-decoration-none">{{ __('custom.show_all') }}</a></td>
                                 @endif
                             </tr>
                         </table>
@@ -81,7 +81,6 @@
                     @empty
                         {{ __('custom.message_home_no_post') }}
                     @endforelse
-                    {!! $posts->links('pagination::bootstrap-4') !!}
                 </div>
             </div>
             <div class="card mb-5">

@@ -3,7 +3,7 @@
     <div class="card">
         <div class="card-header">
             <div class="mt-3">
-                <h2>{{ __('custom.published_in_draft') }} {{ __('custom.of') }} {{ $user->first()->name }}</h2>
+                <h2>{{ __('custom.published_in_draft') }} {{ __('custom.of') }} {{ $user->name }}</h2>
             </div>
         </div>
         <div class="card-body">

@@ -15,24 +15,34 @@ class UserController extends Controller
      */
     public function getMyProfile($id)
     {
-        $user = User::where('id', $id)->get();
-        $countPosts = Posts::with('author')->where('author_id', $id)->count();
-        $countPostsPublished = Posts::with('author')->where(['author_id' => $id, 'active' => 1])->count();
-        $countPostsDrafted = Posts::with('author')->where(['author_id' => $id, 'active' => 0])->count();
-        $posts = Posts::with('author')
-            ->where('author_id', $id)
-            ->orderBy('created_at','desc')
-            ->paginate(3);
+        $data = User::find($id);
+        if ($data && ($data->id == Auth::user()->id || Auth::user()->is_admin()))
+        {
+            $user = $data;
+            $countPosts = $data->posts->count();
+            $countPostsPublished = $data->posts->where('active', 1)->count();
+            $countPostsDrafted = $data->posts->where('active', 0)->count();
+            $posts = $data->posts
+                ->where('active', 1)
+                ->sortByDesc('created_at')
+                ->take(5);
 
+            return view('user.profile')
+                ->with([
+                    'count_posts' => $countPosts,
+                    'count_posts_published' => $countPostsPublished,
+                    'count_posts_drafted' => $countPostsDrafted,
+                    'posts' => $posts,
+                    'user' => $user,
+                ]);
+        }
 
-        return view('user.profile')
+        return redirect('home')
             ->with([
-                'count_posts' => $countPosts,
-                'count_posts_published' => $countPostsPublished,
-                'count_posts_drafted' => $countPostsDrafted,
-                'posts' => $posts,
-                'user' => $user,
+                'message' => __('message_home_fail'),
+                'alert' => 'alert-success',
             ]);
+
     }
 
     /**
@@ -41,16 +51,25 @@ class UserController extends Controller
      */
     public function getMyPost($id)
     {
-        $user = User::where('id', $id)->get();
-        $posts = Posts::with('author')
-            ->where(['author_id' => $id, 'active' => 1])
-            ->orderBy('created_at','desc')
-            ->get();
+        $data = User::find($id);
+        if ($data && ($data->id == Auth::user()->id || Auth::user()->is_admin()))
+        {
+            $user = $data;
+            $posts = $data->posts
+                ->where('active', 1)
+                ->sortByDesc('created_at');
 
-        return view('user.list-posts')
+            return view('user.list-posts')
+                ->with([
+                    'posts' => $posts,
+                    'user' => $user,
+                ]);
+        }
+
+        return redirect('home')
             ->with([
-                'posts' => $posts,
-                'user' => $user,
+                'message' => __('message_home_fail'),
+                'alert' => 'alert-success',
             ]);
     }
 
@@ -60,16 +79,23 @@ class UserController extends Controller
      */
     public function getMyAllPost($id)
     {
-        $user = User::where('id', $id)->get();
-        $posts = Posts::with('author')
-            ->where('author_id', $id)
-            ->orderBy('created_at','desc')
-            ->get();
+        $data = User::find($id);
+        if ($data && ($data->id == Auth::user()->id || Auth::user()->is_admin()))
+        {
+            $user = $data;
+            $posts = $data->posts->sortByDesc('created_at');
 
-        return view('user.list-all-posts')
+            return view('user.list-all-posts')
+                ->with([
+                    'posts' => $posts,
+                    'user' => $user,
+                ]);
+        }
+
+        return redirect('home')
             ->with([
-                'posts' => $posts,
-                'user' => $user,
+                'message' => __('message_home_fail'),
+                'alert' => 'alert-success',
             ]);
     }
 
@@ -79,16 +105,25 @@ class UserController extends Controller
      */
     public function geyMyDrafts($id)
     {
-        $user = User::where('id', $id)->get();
-        $posts = Posts::with('author')
-            ->where(['author_id' => $id, 'active' => 0])
-            ->orderBy('created_at','desc')
-            ->get();
+        $data = User::find($id);
+        if ($data && ($data->id == Auth::user()->id || Auth::user()->is_admin()))
+        {
+            $user = $data;
+            $posts = $data->posts
+                ->where('active', 0)
+                ->sortByDesc('created_at');
 
-        return view('user.list-drafts')
+            return view('user.list-drafts')
+                ->with([
+                    'posts' => $posts,
+                    'user' => $user,
+                ]);
+        }
+
+        return redirect('home')
             ->with([
-                'posts' => $posts,
-                'user' => $user,
+                'message' => __('message_home_fail'),
+                'alert' => 'alert-success',
             ]);
     }
 
