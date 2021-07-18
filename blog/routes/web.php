@@ -43,8 +43,6 @@ Route::group(['middleware' => 'locale'], function() {
 
         Route::get('/delete/{id}', [PostController::class, 'destroy']);
 
-        // User profile
-        Route::get('/user/{id}', [UserController::class, 'getMyProfile'])->name('user.profile');
         // User posts
         Route::get('/user/{id}/posts', [UserController::class, 'getMyPost'])->name('user.posts');
         // User drafts
@@ -53,6 +51,9 @@ Route::group(['middleware' => 'locale'], function() {
         Route::get('/user/{id}/my-all-posts', [UserController::class, 'getMyAllPost'])->name('user.all_posts');
 
     });
+
+    // User profile
+    Route::get('/user/{id}', [UserController::class, 'getMyProfile'])->name('user.profile')->middleware('checklogin');
 
     Route::get('/{slug}', [PostController::class, 'show'])->name('post.detail')
         ->where('slug', '[A-Za-z0-9-_]+');
