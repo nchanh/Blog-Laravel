@@ -1,11 +1,11 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/logout', [LoginController::class, 'signOut'])->name('signOut');
 Route::group(['middleware' => 'locale'], function() {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,8 +43,13 @@ Route::group(['middleware' => 'locale'], function() {
 
     });
 
+    Route::group(['middleware' => 'checklogin'], function() {
+        // Posts
+        Route::resource( 'posts', PostController::class)
+            ->only('store', 'create', 'update', 'edit');
+        Route::get('/posts/{id}/delete', [PostController::class, 'destroy']);
+    });
 
+    Route::resource( 'posts', PostController::class)
+        ->only('show');
 });
-
-Route::get('/logout', [LoginController::class, 'signOut'])->name('signOut');
-

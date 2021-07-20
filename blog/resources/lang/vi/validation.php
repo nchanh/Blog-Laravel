@@ -20,6 +20,7 @@ return [
     ],
     'required' => 'Trường :attribute bắt buộc phải nhập.',
     'unique' => 'Tài khoản đã tồn tại.',
+    'regex' => 'Trường :attribute không đúng định dạng.',
 
     /*
     |--------------------------------------------------------------------------
