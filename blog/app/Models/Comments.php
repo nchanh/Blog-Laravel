@@ -15,12 +15,12 @@ class Comments extends Model
     // user who has commented
     public function author()
     {
-        return $this->belongsTo('App\User', 'from_user');
+        return $this->belongsTo(User::class, 'from_user');
     }
 
     // returns post of any comment
     public function post()
     {
-        return $this->belongsTo('App\Posts', 'on_post');
+        return $this->belongsTo(Posts::class, 'on_post');
     }
 }

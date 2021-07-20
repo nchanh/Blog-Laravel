@@ -23,6 +23,13 @@
 
         {{-- Bootstrap 5 --}}
         <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+        {{-- Message display time --}}
+        <script>
+            setTimeout(function(){
+                $('#message_time').hide(); // hide message
+            }, 5000); // 5000ms
+        </script>
     </div>
 </body>
 </html>

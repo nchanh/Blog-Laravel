@@ -1,11 +1,12 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/logout', [LoginController::class, 'signOut'])->name('signOut');
 Route::group(['middleware' => 'locale'], function() {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -42,8 +44,24 @@ Route::group(['middleware' => 'locale'], function() {
 
     });
 
+    Route::group(['middleware' => ['checklogin', 'check_user_role']], function() {
+        // Posts
+        Route::resource( 'posts', PostController::class)
+            ->only('store', 'create', 'update', 'edit');
+        Route::get('/posts/{id}/delete', [PostController::class, 'destroy']);
+        // User profile
+        Route::get('/user/{id}/posts', [UserController::class, 'getMyPost'])->name('user.posts');
+        Route::get('/user/{id}/my-drafts', [UserController::class, 'geyMyDrafts'])->name('user.drafts');
+        Route::get('/user/{id}/my-all-posts', [UserController::class, 'getMyAllPosts'])->name('user.all_posts');
+    });
 
+    Route::resource( 'posts', PostController::class)
+        ->only('show');
+
+    Route::group(['middleware' => 'checklogin'], function() {
+        // User profile
+        Route::get('/user/{id}', [UserController::class, 'getMyProfile'])->name('user.profile');
+        // Comment
+        Route::post('/comment/add', [CommentController::class, 'store'])->name('comment.add');
+    });
 });
-
-Route::get('/logout', [LoginController::class, 'signOut'])->name('signOut');
-

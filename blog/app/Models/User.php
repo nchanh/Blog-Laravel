@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Notifications\Notifiable;
+use App\Enums\UserRole;
 
 // use Authenticatable, CanResetPassword;
 class User extends Authenticatable implements AuthenticatableContract, CanResetPasswordContract
@@ -54,32 +55,40 @@ class User extends Authenticatable implements AuthenticatableContract, CanResetP
     // user has many posts
     public function posts()
     {
-        return $this->hasMany('App\Posts', 'author_id');
+        return $this->hasMany(Posts::class, 'author_id');
     }
 
     // user has many comments
     public function comments()
     {
-        return $this->hasMany('App\Comments', 'from_user');
+        return $this->hasMany(Comments::class, 'from_user');
     }
 
-    // Checking if a user can post an article or not
+    # Checking if a user can post an article
     public function can_post()
     {
-        $role = $this->role;
-        if ($role == 'author' || $role == 'admin') {
+        if ($this->role === UserRole::getKey(0) || $this->role === UserRole::getKey(1))
+        {
             return true;
         }
         return false;
     }
 
-    // Checking if a role is admin or not
+    # Checking if a role is admin
     public function is_admin()
     {
-        $role = $this->role;
-        if ($role == 'admin') {
-            return true;
-        }
-        return false;
+        return $this->role === UserRole::getKey(0);
+    }
+
+    # Checking if a role is author
+    public function is_author()
+    {
+        return $this->role === UserRole::getKey(1);
+    }
+
+    # Checking if a role is subscriber
+    public function is_subscriber()
+    {
+        return $this->role === UserRole::getKey(2);
     }
 }

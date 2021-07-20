@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class Locale
 {
@@ -20,7 +21,7 @@ class Locale
         $language = \Session::get('website_language', config('app.locale'));
 
         // Switch the app to the selected language
-        config(['app.locale' => $language]);
+        App::setLocale($language);
 
         return $next($request);
     }
