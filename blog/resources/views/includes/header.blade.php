@@ -18,7 +18,7 @@
                     <a class="nav-link @if (session('website_language') == 'vi') active @endif" href="{{ route('change-language', ['vi']) }}">Tiếng Việt</a>
                 </li>
                 <li class="nav-item">
-                     <span class="nav-link">|</span>
+                    <span class="nav-link">|</span>
                 </li>
                 @if (!Auth::check())
                     <li class="nav-item">
@@ -33,9 +33,13 @@
                             {{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu nav__dropdown" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="/new-post">{{ __('custom.add_new_post') }}</a></li>
-                            <li><a class="dropdown-item" href="/user/id/posts">{{ __('custom.my_posts') }}</a></li>
-                            <li><a class="dropdown-item" href="/user/id">{{ __('custom.my_profile') }}</a></li>
+                            @if (Auth::user()->can_post())
+                                <li><a class="dropdown-item" href="{{ route('posts.create') }}">{{ __('custom.add_new_post') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('user.posts', ['id' => Auth::user()->id ]) }}">{{ __('custom.my_posts') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('user.profile', ['id' => Auth::user()->id ]) }}">{{ __('custom.my_profile') }}</a></li>
+                            @elseif(Auth::user()->is_subscriber())
+                                <li><a class="dropdown-item" href="{{ route('user.profile', ['id' => Auth::user()->id ]) }}">{{ __('custom.my_profile') }}</a></li>
+                            @endif
                             <li><a class="dropdown-item" href="{{ route('signOut') }}">{{ __('custom.logout') }}</a></li>
                         </ul>
                     </li>
