@@ -43,7 +43,7 @@ Route::group(['middleware' => 'locale'], function() {
 
     });
 
-    Route::group(['middleware' => 'checklogin'], function() {
+        Route::group(['middleware' => ['checklogin', 'check_user_role']], function() {
         // Posts
         Route::resource( 'posts', PostController::class)
             ->only('store', 'create', 'update', 'edit');

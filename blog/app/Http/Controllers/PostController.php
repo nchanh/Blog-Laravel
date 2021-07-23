@@ -86,7 +86,7 @@ class PostController extends Controller
         $post = Posts::find($post_id);
 
         // Post exists and author_id post = user_id
-        if ($post && ($post->author_id == $request->user()->id)) {
+        if($this->checkData($post, $request)){
             $title = $request->input('title');
             $slug = Str::slug($title);
 
@@ -170,7 +170,7 @@ class PostController extends Controller
         $post = Posts::find($id);
 
         // Post exists and author_id post = user_id
-        if($post && ($post->author_id === $request->user()->id))
+        if($this->checkData($post, $request))
         {
             return view('post.update')->with('post', $post);
         }
@@ -196,7 +196,7 @@ class PostController extends Controller
         $post = Posts::find($id);
 
         // Post exists and author_id post = user_id
-        if($post && ($post->author_id == $request->user()->id))
+        if($this->checkData($post, $request))
         {
             $post->delete();
             $message = __('custom.message_home_delete_success');
@@ -214,6 +214,20 @@ class PostController extends Controller
                 'message' => $message,
                 'alert'   => $alert,
             ]);
+    }
+
+    /**
+     * Check post exists, check author = login id, is an admin?
+     *
+     * @param $post
+     * @param $request
+     * @return bool
+     */
+    public function checkData($post, $request){
+        if($post && ($post->author_id === $request->user()->id)){
+            return true;
+        }
+        return false;
     }
 
 }
