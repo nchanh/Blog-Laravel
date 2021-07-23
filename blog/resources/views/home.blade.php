@@ -24,7 +24,7 @@
                                     @else
                                         <span>{{ $post->created_at->format('d/m/Y \l\ú\c H:i') }}</span>
                                     @endif
-                                    <span>{{ __('custom.by') }} <a href="" class="text-decoration-none">{{ $post->author->name }}</a></span>
+                                    <span>{{ __('custom.by') }} <a href="route('posts.edit', ['post' => $post->id])" class="text-decoration-none">{{ $post->author->name }}</a></span>
                                 </div>
                             </div>
                             @if (Auth::check() && ($post->author_id === Auth::user()->id || Auth::user()->is_admin()))
@@ -41,7 +41,7 @@
                         </div>
                     </li>
                     <li class="list-group-item">
-                        {!! Str::limit($post->body, $limit = 1500, $end = '....... <a href='. url("/" . $post->slug). '>' . __('custom.read_more')  .'</a>') !!}
+                        {!! Str::limit($post->body, $limit = 1500, $end = '....... <a href='. url("/posts/" . $post->slug). '>' . __('custom.read_more')  .'</a>') !!}
                     </li>
                 </ul>
             @empty

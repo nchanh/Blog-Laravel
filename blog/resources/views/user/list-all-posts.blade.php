@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="col">
                                 <div class="row">
-                                    <a href="{{ url('/' . $post->slug) }}" class="text-decoration-none"><h3>{{ $post->title }}</h3></a>
+                                    <a href="{{ url('/posts/' . $post->slug) }}" class="text-decoration-none"><h3>{{ $post->title }}</h3></a>
                                 </div>
                                 <div class="row">
                                     @if (session('website_language') == 'en')
@@ -27,11 +27,11 @@
                                 <div class="col text-end">
                                     @if ($post->active === 0)
                                         <div class="col text-end">
-                                            <a class="btn btn-secondary" href="{{ url('/edit/' . $post->slug) }}" role="button">{{ __('custom.btn_edit_draft') }}</a>
+                                            <a class="btn btn-secondary" href="{{ route('posts.edit', ['post' => $post->id]) }}" role="button">{{ __('custom.btn_edit_draft') }}</a>
                                         </div>
                                     @else
                                         <div class="col text-end">
-                                            <a class="btn btn-light" href="{{ url('/edit/' . $post->slug) }}" role="button">{{ __('custom.btn_edit_post') }}</a>
+                                            <a class="btn btn-light" href="{{ route('posts.edit', ['post' => $post->id]) }}" role="button">{{ __('custom.btn_edit_post') }}</a>
                                         </div>
                                     @endif
                                 </div>

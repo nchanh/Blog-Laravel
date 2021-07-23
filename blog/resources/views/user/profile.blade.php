@@ -60,7 +60,7 @@
                                     <div class="row">
                                         <div class="col">
                                             <div class="row">
-                                                <a href="{{ url('/' . $post->slug) }}" class="text-decoration-none"><h3>{{ $post->title }}</h3></a>
+                                                <a href="{{ url('/posts/' . $post->slug) }}" class="text-decoration-none"><h3>{{ $post->title }}</h3></a>
                                             </div>
                                             <div class="row">
                                                 @if (session('website_language') == 'en')
@@ -72,7 +72,7 @@
                                         </div>
                                         <div class="col text-end">
                                             <div class="col text-end">
-                                                <a class="btn btn-light" href="{{ url('/edit/' . $post->slug) }}" role="button">{{ __('custom.btn_edit_post') }}</a>
+                                                <a class="btn btn-light" href="{{ route('posts.edit', ['post' => $post->id]) }}" role="button">{{ __('custom.btn_edit_post') }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -106,7 +106,7 @@
                             </div>
                             <div class="row p-1">
                                 <span>
-                                    {{ __('custom.on_post') }} <a href="{{ url('/' . $comment->post->slug) }}" class="text-decoration-none">{{ $comment->post->title }}</a>
+                                    {{ __('custom.on_post') }} <a href="{{ url('/posts/' . $comment->post->slug) }}" class="text-decoration-none">{{ $comment->post->title }}</a>
                                 </span>
                             </div>
                         </li>

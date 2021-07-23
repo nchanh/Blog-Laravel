@@ -17,21 +17,20 @@
                             @else
                                 <span>{{ $post->created_at->format('d/m/Y \l\ú\c H:i') }}</span>
                             @endif
-                            {{ __('custom.by') }} <a href="" class="text-decoration-none">{{ $post->author->name }}</a></span>
+                            {{ __('custom.by') }} <a href="{{ route('user.profile', ['id' => $post->author]) }}" class="text-decoration-none">{{ $post->author->name }}</a></span>
                     </div>
                 </div>
                 @if (Auth::check() && ($post->author_id === Auth::user()->id || Auth::user()->is_admin()))
                     @if ($post->active === 0)
-                        <div class="col-2 text-end">
-                            <a class="btn btn-secondary" href="{{ url('/edit/' . $post->slug) }}" role="button">{{ __('custom.btn_edit_draft') }}</a>
+                        <div class="col-3 text-end">
+                            <a class="btn btn-secondary" href="{{ route('posts.edit', ['post' => $post->id]) }}" role="button">{{ __('custom.btn_edit_draft') }}</a>
                         </div>
                     @else
                         <div class="col-3 text-end">
-                            <a class="btn btn-light" href="{{ url('/edit/' . $post->slug) }}" role="button">{{ __('custom.btn_edit_post') }}</a>
+                            <a class="btn btn-light" href="{{ route('posts.edit', ['post' => $post->id]) }}" role="button">{{ __('custom.btn_edit_post') }}</a>
                         </div>
                     @endif
                 @endif
-                <span>{{ __('custom.by') }} <a href="" class="text-decoration-none">{{ $post->author->name }}</a></span>
             </div>
         </div>
         <div class="card-body">

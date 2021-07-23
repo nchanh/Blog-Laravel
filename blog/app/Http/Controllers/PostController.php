@@ -88,14 +88,14 @@ class PostController extends Controller
         $post = Posts::find($post_id);
 
         // Post exists and author_id post = user_id
-        if ($post && ($post->author_id == $request->user()->id || $request->user()->is_admin())) {
+        if($this->checkData($post, $request)){
             $title = $request->input('title');
             $slug = Str::slug($title);
 
             // Check unique title
             $unique = Posts::where('slug', $post->slug)->first();
             if ($unique) {
-                if ($unique->id !== $post_id) {
+                if ($unique->id !== $post->id) {
                     return back()->with([
                         'message' => __('custom.message_post_unique_error'),
                         'alert' => 'alert-danger',
@@ -170,8 +170,9 @@ class PostController extends Controller
     public function edit(Request $request, $id)
     {
         $post = Posts::find($id);
+
         // Post exists and author_id post = user_id
-        if($post && ($post->author_id === $request->user()->id || $request->user()->is_admin()))
+        if($this->checkData($post, $request))
         {
             return view('post.update')->with('post', $post);
         }
@@ -197,7 +198,7 @@ class PostController extends Controller
         $post = Posts::find($id);
 
         // Post exists and author_id post = user_id
-        if($post && ($post->author_id == $request->user()->id || $request->user()->is_admin()))
+        if($this->checkData($post, $request))
         {
             $post->delete();
             $message = __('custom.message_home_delete_success');
@@ -217,4 +218,17 @@ class PostController extends Controller
             ]);
     }
 
+    /**
+     * Check post exists, check author = login id, is an admin?
+     *
+     * @param $post
+     * @param $request
+     * @return bool
+     */
+    public function checkData($post, $request){
+        if($post && ($post->author_id === $request->user()->id || $request->user()->is_admin())){
+            return true;
+        }
+        return false;
+    }
 }

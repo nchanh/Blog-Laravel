@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Posts;
+use App\Enums\PostStatus;
 
 class HomeController extends Controller
 {
@@ -14,7 +15,7 @@ class HomeController extends Controller
     public function index()
     {
         //fetch 5 posts from database which are active and latest
-        $posts = Posts::where('active', 1)->orderBy('created_at','desc')->paginate(5);
+        $posts = Posts::where('active', PostStatus::Published)->orderBy('created_at','desc')->paginate(5);
 
         return view('home')->withPosts($posts);
     }

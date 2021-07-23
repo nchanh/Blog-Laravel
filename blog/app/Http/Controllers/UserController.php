@@ -6,6 +6,7 @@ use App\Models\Posts;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Comments;
+use App\Enums\PostStatus;
 
 class UserController extends Controller
 {
@@ -18,23 +19,21 @@ class UserController extends Controller
     public function getMyProfile($id)
     {
         $data = User::find($id);
-        if ($data && ($data->id == Auth::user()->id || Auth::user()->is_admin())) {
+        if ($this->checkData($data)) {
             $user = $data;
             $countPosts = $data->posts->count();
-            $countPostsPublished = $data->posts->where('active', 1)->count();
-            $countPostsDrafted = $data->posts->where('active', 0)->count();
+            $countPostsPublished = $data->posts->where('active', PostStatus::Published)->count();
+            $countPostsDrafted = $data->posts->where('active', PostStatus::Draft)->count();
             $posts = $data->posts
-                ->where('active', 1)
+                ->where('active', PostStatus::Published)
                 ->sortByDesc('created_at')
                 ->take(5);
-
             $countComments = Comments::with('author')->where('from_user' , $id)->count();
             $comments = Comments::with('author')
                 ->where('from_user' , $id)
                 ->orderBy('created_at','desc')
                 ->limit(5)
                 ->get();
-
             return view('user.profile')
                 ->with([
                     'count_posts' => $countPosts,
@@ -62,11 +61,11 @@ class UserController extends Controller
     public function getMyPost($id)
     {
         $data = User::find($id);
-        if ($data && ($data->id == Auth::user()->id || Auth::user()->is_admin()))
+        if ($this->checkData($data))
         {
             $user = $data;
             $posts = $data->posts
-                ->where('active', 1)
+                ->where('active', PostStatus::Published)
                 ->sortByDesc('created_at');
 
             return view('user.list-posts')
@@ -91,7 +90,7 @@ class UserController extends Controller
     public function getMyAllPosts($id)
     {
         $data = User::find($id);
-        if ($data && ($data->id === Auth::user()->id || Auth::user()->is_admin()))
+        if ($this->checkData($data))
         {
             $user = $data;
             $posts = $data->posts->sortByDesc('created_at');
@@ -118,11 +117,11 @@ class UserController extends Controller
     public function geyMyDrafts($id)
     {
         $data = User::find($id);
-        if ($data && ($data->id == Auth::user()->id || Auth::user()->is_admin()))
+        if ($this->checkData($data))
         {
             $user = $data;
             $posts = $data->posts
-                ->where('active', 0)
+                ->where('active', PostStatus::Draft)
                 ->sortByDesc('created_at');
 
             return view('user.list-drafts')
@@ -137,5 +136,18 @@ class UserController extends Controller
                 'message' => __('message_home_fail'),
                 'alert' => 'alert-success',
             ]);
+    }
+
+    /**
+     * Check user exists, check user = login id, is an admin?
+     *
+     * @param $user
+     * @return bool
+     */
+    public function checkData($user){
+        if($user && ($user->id === Auth::user()->id || Auth::user()->is_admin())){
+            return true;
+        }
+        return false;
     }
 }
