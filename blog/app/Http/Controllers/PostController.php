@@ -224,7 +224,7 @@ class PostController extends Controller
      * @return bool
      */
     public function checkData($post, $request){
-        if($post && ($post->author_id === $request->user()->id)){
+        if($post && ($post->author_id === $request->user()->id || $request->user()->is_admin())){
             return true;
         }
         return false;

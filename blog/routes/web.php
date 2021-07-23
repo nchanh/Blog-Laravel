@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,13 +44,19 @@ Route::group(['middleware' => 'locale'], function() {
 
     });
 
-        Route::group(['middleware' => ['checklogin', 'check_user_role']], function() {
+    Route::group(['middleware' => ['checklogin', 'check_user_role']], function() {
         // Posts
         Route::resource( 'posts', PostController::class)
             ->only('store', 'create', 'update', 'edit');
         Route::get('/posts/{id}/delete', [PostController::class, 'destroy']);
+        // User profile
+        Route::get('/user/{id}/posts', [UserController::class, 'getMyPost'])->name('user.posts');
+        Route::get('/user/{id}/my-drafts', [UserController::class, 'geyMyDrafts'])->name('user.drafts');
+        Route::get('/user/{id}/my-all-posts', [UserController::class, 'getMyAllPosts'])->name('user.all_posts');
     });
 
     Route::resource( 'posts', PostController::class)
         ->only('show');
+    // User profile
+    Route::get('/user/{id}', [UserController::class, 'getMyProfile'])->name('user.profile')->middleware('checklogin');
 });
