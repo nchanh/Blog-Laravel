@@ -55,7 +55,7 @@ class User extends Authenticatable implements AuthenticatableContract, CanResetP
     // user has many posts
     public function posts()
     {
-        return $this->hasMany('App\Posts', 'author_id');
+        return $this->hasMany(Posts::class, 'author_id');
     }
 
     // user has many comments

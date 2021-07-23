@@ -2,33 +2,22 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <h2>{{ __('custom.register') }}</h2>
+            <h2>{{ __('custom.reset_password') }}</h2>
         </div>
         <div class="card-body p-5">
-            <form action="{{ route('register.post') }}" method="post">
+            @if(session('status'))
+                <div class="alert {{ session('alert') }} text-center fw-bold mb-4">{{ session('status') }}</div>
+            @endif
+            <form action="{{ route('password.update') }}" method="post">
                 @csrf
-                <div class="form-group mb-3">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-3 col-lg-3 col-12">
-                            <label>{{ __('custom.name') }}</label>
-                        </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6 col-12">
-                            <input type="text" class="form-control" name="name" id="name"  value="{{ old('name') }}" required/>
-                            @if ($errors->has('name'))
-                                <div class="mt-2">
-                                    <span class="text-danger fst-italic">{{ $errors->first('name') }}</span>
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+                <input type="hidden" name="token" value="{{ $token }}">
                 <div class="form-group mb-3">
                     <div class="row">
                         <div class="col-sm-12 col-md-3 col-lg-3 col-12">
                             <label>{{ __('custom.email_address') }}</label>
                         </div>
                         <div class="col-sm-12 col-md-6 col-lg-6 col-12">
-                            <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" required/>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ $email ?? old('email') }}" autofocus required/>
                             @if ($errors->has('email'))
                                 <div class="mt-2">
                                     <span class="text-danger fst-italic">{{ $errors->first('email') }}</span>
@@ -52,7 +41,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group mb-4">
+                <div class="form-group mb-3">
                     <div class="row">
                         <div class="col-sm-12 col-md-3 col-lg-3 col-12">
                             <label>{{ __('custom.confirm_password') }}</label>
@@ -68,7 +57,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-primary">{{ __('custom.register') }}</button>
+                    <button class="btn btn-primary">{{ __('custom.reset_password') }}</button>
                 </div>
             </form>
         </div>
